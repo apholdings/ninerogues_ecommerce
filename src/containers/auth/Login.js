@@ -7,7 +7,8 @@ import Loader from 'react-loader-spinner'
 import { Navigate } from 'react-router'
 const Login = ({
   login,
-  loading
+  loading,
+  isAuthenticated
 }) => {
 
   useEffect(() => {
@@ -24,17 +25,14 @@ const Login = ({
     password,
   } = formData;
 
-  const [activated, setActivated] = useState(false);
-
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = e =>{
     e.preventDefault();
     login(email, password);
-    setActivated(true);
   }
 
-  if (activated)
+  if (isAuthenticated)
     return <Navigate to='/' />;
 
   return (
@@ -137,7 +135,8 @@ const Login = ({
   )
 }
 const mapStateToProps = state => ({
-  loading: state.Auth.loading
+  loading: state.Auth.loading,
+  isAuthenticated: state.Auth.isAuthenticated
 })
 
 export default connect(mapStateToProps, {
